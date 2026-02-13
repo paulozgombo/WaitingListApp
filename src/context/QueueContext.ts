@@ -13,7 +13,7 @@ type QueueStore = {
 export const useQueueStore = create<QueueStore>((set) => ({
     queue: [],
     setMatterAsync: async (matter) => {
-        const randomValue: number = await new Promise((resolve) => {
+        const randomValue = await new Promise<number>((resolve) => {
             setTimeout(() => {
                 resolve(Math.random());
             }, 1000);
