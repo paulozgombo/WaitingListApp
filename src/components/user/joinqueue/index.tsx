@@ -53,7 +53,7 @@ const JoinQueue = () => {
                             disabled={loading}
                         />
                         <button type='submit' disabled={loading}>
-                            {loading ? <LoaderCircle className="animate-spin" /> : 'Request for Queue'}
+                            {loading ? <LoaderCircle className="animate-spin"/> : 'Request for Queue'}
                         </button>
                     </form>
                 </div>
