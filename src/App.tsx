@@ -1,12 +1,13 @@
-import './App.css'
-import JoinQueue from './components/user/joinqueue';
+import JoinQueue from '@/components/user/joinqueue';
+import Navbar from '@/components/user/navbar';
+import './index.css';
 
 function App() {
   
   return (
     <>
+      <Navbar />
       <JoinQueue />
-
     </>
   )
 }
