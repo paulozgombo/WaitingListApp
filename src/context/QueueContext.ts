@@ -6,17 +6,30 @@ type QueueItem = {
 }
 
 type QueueStore = {
-    queue: QueueItem[];
+    queue: QueueItem;
     setMatterAsync: (matter: string) => Promise<void>;
+    getMatter: () => QueueItem;
+    deleteMatter: () => void;
 }
 
 export const useQueueStore = create<QueueStore>((set) => ({
-    queue: [],
+    queue: { matter: '', matterId: 0 },
     setMatterAsync: async (matter) => {
          await new Promise((resolve) => setTimeout(resolve, 1000)); 
          const randomValue = Math.floor(Math.random() * 1000);    
-        set((state) => ({ 
-            queue: [...state.queue, { matter, matterId: randomValue }]
+        set(() => ({ 
+            queue: { matter, matterId: randomValue }
         }));
-    }
+    },
+
+    getMatter() {
+        return this.queue;  
+    },
+
+    deleteMatter() {
+        set(() => ({
+            queue: { matter: '', matterId: 0 }
+        }));
+    },
+  
 }));
