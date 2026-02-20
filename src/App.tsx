@@ -3,11 +3,13 @@ import Navbar from '@/components/user/navbar';
 import './index.css';
 
 function App() {
-  
+
   return (
     <>
-      <Navbar />
-      <JoinQueue />
+      <div>
+           <Navbar />
+           <JoinQueue />
+      </div>
     </>
   )
 }
