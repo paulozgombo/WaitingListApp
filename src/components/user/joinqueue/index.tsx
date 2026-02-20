@@ -2,10 +2,14 @@ import { useState } from 'react'
 import { useQueueStore } from '@/context/QueueContext';
 import { Wrapper } from './style';
 import { LoaderCircle } from 'lucide-react';
+import { useNavigate } from 'react-router';
 
 const JoinQueue = () => {
+
     const [queue, setQueue] = useState('');
     const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQueue(e.target.value);
@@ -35,6 +39,8 @@ const JoinQueue = () => {
         setQueue('');
         
         setLoading(false);
+        navigate('/testfile');
+
     }
 
     return (

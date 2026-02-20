@@ -71,7 +71,7 @@ export const Wrapper = styled.div`
 }
 
 .animate-spin {
-  animation: slow-spin 3.5s linear infinite;
+  animation: animate-spin 3.5s linear infinite;
 }
 
 `;
