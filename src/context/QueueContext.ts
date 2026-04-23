@@ -1,35 +1,59 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 
 type QueueItem = {
-    matter: string;
     matterId: number;
+    matter: string;
+    priority: string;
 }
 
-type QueueStore = {
+type AddQueue = {
     queue: QueueItem;
-    setMatterAsync: (matter: string) => Promise<void>;
-    getMatter: () => QueueItem;
-    deleteMatter: () => void;
+    queueList: QueueItem[];
+    ticketRevoked: number;
+    setMatterAsync: (matter: string, priority: string) => Promise<void>;
+    deleteMatter: (id: number) => void;
 }
 
-export const useQueueStore = create<QueueStore>((set) => ({
-    queue: { matter: '', matterId: 0 },
-    setMatterAsync: async (matter) => {
-         await new Promise((resolve) => setTimeout(resolve, 1000)); 
-         const randomValue = Math.floor(Math.random() * 1000);    
-        set(() => ({ 
-            queue: { matter, matterId: randomValue }
-        }));
-    },
+export const useAddQueue = create<AddQueue>()(
+    persist(
+        (set) => ({
 
-    getMatter() {
-        return this.queue;  
-    },
+            queueList: [],
+            ticketRevoked: 0,
+            queue: { matterId: 0, matter: '',priority: '' },
 
-    deleteMatter() {
-        set(() => ({
-            queue: { matter: '', matterId: 0 }
-        }));
-    },
-  
-}));
+            setMatterAsync: async (matter, priority) => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+                const matterId = Math.floor(Math.random() * 1000);
+
+                set((state) => ({
+                    queue: { matterId, matter, priority },
+                    queueList: [...state.queueList, { matterId, matter, priority }]
+                }));
+            },
+
+            deleteMatter: (id) => {
+                set((state) => ({
+
+                    queue: { matterId: 0, matter: '', priority: '' },
+
+                    queueList: state.queueList.filter(
+                        item => item.matterId !== id
+                    ),
+
+                    ticketRevoked: state.ticketRevoked + 1
+
+                }));
+            }
+
+        }),
+        {
+            name: 'add-queue-storage',
+            partialize: (state) => ({
+                queueList: state.queueList,
+                queue: state.queue
+            })
+        }
+    )
+);

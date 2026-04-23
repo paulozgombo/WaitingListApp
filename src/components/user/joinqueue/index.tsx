@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQueueStore } from '@/context/QueueContext';
+import { useAddQueue } from '@/context/QueueContext';
 import { Wrapper } from './style';
 import { LoaderCircle } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -7,15 +7,12 @@ import { useNavigate } from 'react-router';
 const JoinQueue = () => {
 
     const [queue, setQueue] = useState('');
+    const [priority, setPriority] = useState('');
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setQueue(e.target.value);
-    }
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setLoading(true);
@@ -35,11 +32,12 @@ const JoinQueue = () => {
             }, 3000);
         });
 
-        await useQueueStore.getState().setMatterAsync(matter);
+        await useAddQueue.getState().setMatterAsync(matter, priority);
         setQueue('');
-        
-        setLoading(false);
-        navigate('/testfile');
+        setPriority('');
+
+        setLoading(false);       
+        navigate('/ticket');
 
     }
 
@@ -55,9 +53,24 @@ const JoinQueue = () => {
                             placeholder='Enter the matter here!'
                             name='matter' 
                             value={queue} 
-                            onChange={handleChange}
+                            onChange={(e) => setQueue(e.target.value)}
                             disabled={loading}
                         />
+
+                        <select 
+                            size={1}
+                            name='priority' 
+                            value={priority} 
+                            onChange={(e) => setPriority(e.target.value)}
+                            disabled={loading}
+                            className='selectPriority'
+                        >
+                            <option value="none">Select Priority</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+
                         <button type='submit' disabled={loading}>
                             {loading ? <LoaderCircle className="animate-spin"/> : 'Request for Queue'}
                         </button>

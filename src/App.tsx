@@ -1,5 +1,5 @@
 import JoinQueue from '@/components/user/joinqueue';
-import Navbar from '@/components/user/navbar';
+import Navbar from '@/components/common/navbar';
 import './index.css';
 
 function App() {
