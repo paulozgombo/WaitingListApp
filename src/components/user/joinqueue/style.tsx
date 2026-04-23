@@ -50,6 +50,19 @@ export const Wrapper = styled.div`
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
   }
 
+  .selectPriority {
+    padding: 4px 3px;
+    border: none;
+    border-radius: 10px;
+    font-style: italic;
+  }
+
+  .selectPriority:focus {
+    outline: none;
+    border-color: #4B0082;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+  }
+
   button {
     padding: 8px 12px;
     border: none;
